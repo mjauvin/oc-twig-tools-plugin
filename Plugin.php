@@ -13,11 +13,6 @@ use System\Classes\PluginBase;
  */
 class Plugin extends PluginBase
 {
-    /**
-     * Returns information about this plugin.
-     *
-     * @return array
-     */
     public function pluginDetails()
     {
         return [
@@ -44,6 +39,15 @@ class Plugin extends PluginBase
     {
         return [
             'filters' => [
+                'br2nl' => function ($content) {
+                    return str_replace("<br>", "\r\n", $content);
+                },
+                'get_lines' => function($text) {
+                    if (!trim($text)) {
+                        return [];
+                    }
+                    return explode("\n", $text);
+                },
                 'krsort' => function($array) {
                     if ($array)
                         krsort($array);
@@ -68,18 +72,9 @@ class Plugin extends PluginBase
                     $file->disk_name = md5($path);
                     return $file->fromFile($path);
                 },
-                'get_lines' => function($text) {
-                    if (!trim($text)) {
-                        return [];
-                    }
-                    return explode("\n", $text);
-                },
                 'twig' => function ($content, $vars=[]) {
                     $env = App::make('cms.twig.environment');
                     return $env->createTemplate($content)->render($vars);
-                },
-                'br2nl' => function ($content) {
-                    return str_replace("<br>", "\r\n", $content);
                 },
                 'yaml2array' => function($yamlString) {
                     return Yaml::parse($yamlString);
