@@ -49,11 +49,13 @@ class Plugin extends PluginBase
                     return explode("\n", $text);
                 },
                 'krsort' => function($array) {
+                    $array = (array)$array;
                     if ($array)
                         krsort($array);
                     return $array;
                 },
                 'ksort' => function($array) {
+                    $array = (array)$array;
                     if ($array)
                         ksort($array);
                     return $array;
