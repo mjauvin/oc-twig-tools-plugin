@@ -29,9 +29,7 @@ class Plugin extends PluginBase
          * Register CMS Twig environment
          */
         Event::listen('cms.page.init', function ($controller) {
-            App::singleton('cms.twig.environment', function ($app) use ($controller) {
-                return $controller->getTwig();
-            }); 
+            App::instance('cms.twig.environment', $controller->getTwig());
         });
     }
 
