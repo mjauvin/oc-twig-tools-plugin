@@ -58,6 +58,10 @@ class Plugin extends PluginBase
                         ksort($array);
                     return $array;
                 },
+                'lipsum' => function($text, $n=1) {
+                    $gen = new \joshtronic\LoremIpsum();
+                    return $gen->sentences($n);
+                },
                 'media_file' => function($path) {
                     $file = new \System\Models\File;
                     if ($path[0] !== '/' || !File::exists($path)) {
