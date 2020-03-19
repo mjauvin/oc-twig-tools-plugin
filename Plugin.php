@@ -59,8 +59,8 @@ class Plugin extends PluginBase
                     return $array;
                 },
                 'lipsum' => function($text, $n=1) {
-                    $gen = new \joshtronic\LoremIpsum();
-                    return $gen->sentences($n);
+                    $gen = new \Badcow\LoremIpsum\Generator();
+                    return implode('<p>', $gen->getSentences($n));
                 },
                 'media_file' => function($path) {
                     $file = new \System\Models\File;

@@ -1,0 +1,47 @@
+[
+    {
+        "name": "badcow/lorem-ipsum",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Badcow/LoremIpsum.git",
+            "reference": "7e685497e92d71d0ebbd067d51892f3308cc72e1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Badcow/LoremIpsum/zipball/7e685497e92d71d0ebbd067d51892f3308cc72e1",
+            "reference": "7e685497e92d71d0ebbd067d51892f3308cc72e1",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "suggest": {
+            "twig/twig": "Twig is a template language for PHP, released under the new BSD license (code and documentation)."
+        },
+        "time": "2015-04-10T00:15:43+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Badcow\\LoremIpsum\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Sam Williams",
+                "email": "sam@badcow.co"
+            },
+            {
+                "name": "Mathew Tinsley",
+                "email": "tinsley@tinsology.net"
+            }
+        ],
+        "description": "Lorem ipsum generator."
+    }
+]
