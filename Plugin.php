@@ -71,7 +71,7 @@ class Plugin extends PluginBase
                         $path = storage_path($path);
                     }
                     if (!File::exists($path)) {
-                        $path = storage_path('app/media/noimg.jpg');
+                        $path = storage_path('app/media/images/noimg.jpg');
                     }
                     $file->disk_name = md5($path);
                     return $file->fromFile($path);
