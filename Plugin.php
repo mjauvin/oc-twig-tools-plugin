@@ -3,6 +3,7 @@
 use App;
 use Backend;
 use Event;
+use Cms\Classes\Theme;
 use File;
 use Yaml;
 
@@ -62,6 +63,18 @@ class Plugin extends PluginBase
                     $gen = new \Badcow\LoremIpsum\Generator();
                     return implode('<p>', $gen->getSentences($n));
                 },
+                'asset_file' => function($path) {
+                    if (!starts_with($path, 'assets/')) {
+                        $path = 'assets/' . $path;
+                    }
+                    $localPath = themes_path(sprintf('%s/%s', Theme::getActiveTheme()->getDirName(), $path));
+                    if (!File::exists($localPath)) {
+                        $localPath = $this->plugin_path('assets/images/noimg.jpg');
+                    }
+                    $file = new \System\Models\File;
+                    $file->disk_name = md5($localPath);
+                    return $file->fromFile($localPath);
+                },
                 'media_file' => function($path) {
                     $file = new \System\Models\File;
                     if ($path[0] !== '/' || !File::exists($path)) {
@@ -71,7 +84,7 @@ class Plugin extends PluginBase
                         $path = storage_path($path);
                     }
                     if (!File::exists($path)) {
-                        $path = storage_path('app/media/images/noimg.jpg');
+                        $path = $this->plugin_path('assets/images/noimg.jpg');
                     }
                     $file->disk_name = md5($path);
                     return $file->fromFile($path);
@@ -85,5 +98,9 @@ class Plugin extends PluginBase
                 },
             ],
         ];
+    }
+    protected function plugin_path($path)
+    {
+        return plugins_path('studioazura/twigtools/' . $path);
     }
 }
