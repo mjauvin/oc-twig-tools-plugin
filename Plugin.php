@@ -59,10 +59,6 @@ class Plugin extends PluginBase
                         ksort($array);
                     return $array;
                 },
-                'lipsum' => function($text, $n=1) {
-                    $gen = new \Badcow\LoremIpsum\Generator();
-                    return implode('<p>', $gen->getSentences($n));
-                },
                 'asset_file' => function($path) {
                     if (!starts_with($path, 'assets/')) {
                         $path = 'assets/' . $path;
@@ -95,6 +91,12 @@ class Plugin extends PluginBase
                 },
                 'yaml2array' => function($yamlString) {
                     return Yaml::parse($yamlString);
+                },
+            ],
+            'functions' => [
+                'lipsum' => function($n=1) {
+                    $gen = new \Badcow\LoremIpsum\Generator();
+                    return implode('<p>', $gen->getSentences($n));
                 },
             ],
         ];
