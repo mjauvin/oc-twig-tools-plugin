@@ -47,6 +47,9 @@ class Plugin extends PluginBase
                     }
                     return explode("\n", $text);
                 },
+                'json_decode' => function ($data=[]) {
+                    return json_decode($data);
+                },
                 'krsort' => function($array) {
                     $array = (array)$array;
                     if ($array)
