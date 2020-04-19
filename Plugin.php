@@ -62,6 +62,20 @@ class Plugin extends PluginBase
                         ksort($array);
                     return $array;
                 },
+                'ldate' => function($date, $format = '%A, %e %B %Y %H:%M') {
+                    $timezone = \Config::get('cms.backendTimezone', 'UTC');
+                    date_default_timezone_set($timezone);
+
+                    $locale = \App::getLocale();
+                    setlocale(LC_TIME, $locale, $locale . '_CA');
+
+                    if (is_string($date)) { 
+                        $ts = strtotime($date);
+                    } else {
+                        $ts = $date->timestamp;
+                    }
+                    return utf8_encode(strftime($format, $ts));
+                },
                 'asset_file' => function($path) {
                     if (!starts_with($path, 'assets/')) {
                         $path = 'assets/' . $path;
