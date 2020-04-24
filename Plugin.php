@@ -5,6 +5,7 @@ use Backend;
 use Event;
 use Cms\Classes\Theme;
 use File;
+use October\Rain\Argon\Argon;
 use Yaml;
 
 use System\Classes\PluginBase;
@@ -29,13 +30,16 @@ class Plugin extends PluginBase
         /*
          * Register CMS Twig environment
          */
-        Event::listen('cms.page.init', function ($controller) {
+        Event::listen('cms.page.init', function ($controller, $page) {
             App::instance('cms.twig.environment', $controller->getTwig());
         });
     }
 
     public function registerMarkupTags()
     {
+        $twig = $this->app->make('twig.environment');
+        $twigDate = $twig->getFilter('date')->getCallable();
+
         return [
             'filters' => [
                 'br2nl' => function ($content) {
@@ -62,19 +66,9 @@ class Plugin extends PluginBase
                         ksort($array);
                     return $array;
                 },
-                'ldate' => function($date, $format = '%A, %e %B %Y %H:%M') {
-                    $timezone = \Config::get('cms.backendTimezone', 'UTC');
-                    date_default_timezone_set($timezone);
-
-                    $locale = \App::getLocale();
-                    setlocale(LC_TIME, $locale, $locale . '_CA');
-
-                    if (is_string($date)) { 
-                        $ts = strtotime($date);
-                    } else {
-                        $ts = $date->timestamp;
-                    }
-                    return utf8_encode(strftime($format, $ts));
+                'date' => function($date, $format = null, $timezone = null ) use ($twig, $twigDate) {
+                    $date = Argon::parse($date);
+                    return $twigDate($twig, $date, $format, $timezone);
                 },
                 'asset_file' => function($path) {
                     if (!starts_with($path, 'assets/')) {
