@@ -3,11 +3,12 @@
 use App;
 use Backend;
 use Event;
-use Cms\Classes\Theme;
 use File;
-use October\Rain\Argon\Argon;
+use Storage;
 use Yaml;
 
+use Cms\Classes\Theme;
+use October\Rain\Argon\Argon;
 use System\Classes\PluginBase;
 
 /**
@@ -82,19 +83,25 @@ class Plugin extends PluginBase
                     $file->disk_name = md5($localPath);
                     return $file->fromFile($localPath);
                 },
-                'media_file' => function($path) {
-                    $file = new \System\Models\File;
-                    if ($path[0] !== '/' || !File::exists($path)) {
-                        if (strpos($path, 'app/media/') === false) {
-                            $path = 'app/media/' . $path;
+                'media_file' => function($filename) {
+                    if (!File::exists($filename)) {
+                        $path = '/media/' . $filename;
+                        if (Storage::exists($path)) {
+                            $filename = Storage::path($path);
                         }
-                        $path = storage_path($path);
                     }
-                    if (!File::exists($path)) {
-                        $path = $this->plugin_path('assets/images/noimg.jpg');
+                    if (!File::exists($filename)) {
+                        $filename = $this->plugin_path('assets/images/noimg.jpg');
                     }
-                    $file->disk_name = md5($path);
-                    return $file->fromFile($path);
+                    $file = new \System\Models\File;
+                    $file->disk_name = md5($filename);
+                    return $file->fromFile($filename);
+                },
+                'media_exists' => function($filename) {
+                    if (!$filename || !Storage::exists('/media/' . $filename)) {
+                        return false;
+                    }
+                    return true;
                 },
                 'twig' => function ($content, $vars=[]) {
                     $env = App::make('cms.twig.environment');
