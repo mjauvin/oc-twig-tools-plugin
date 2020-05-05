@@ -38,9 +38,6 @@ class Plugin extends PluginBase
 
     public function registerMarkupTags()
     {
-        $twig = $this->app->make('twig.environment');
-        $twigDate = $twig->getFilter('date')->getCallable();
-
         return [
             'filters' => [
                 'br2nl' => function ($content) {
@@ -66,10 +63,6 @@ class Plugin extends PluginBase
                     if ($array)
                         ksort($array);
                     return $array;
-                },
-                'date' => function($date, $format = null, $timezone = null ) use ($twig, $twigDate) {
-                    $date = Argon::parse($date);
-                    return $twigDate($twig, $date, $format, $timezone);
                 },
                 'asset_file' => function($path) {
                     if (!starts_with($path, 'assets/')) {
