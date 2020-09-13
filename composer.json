@@ -1,0 +1,6 @@
+{
+    "name": "studioazura/twigtools",
+    "type": "october-plugin",
+    "description": "Azura Twig tools Plugin",
+    "minimum-stability": "dev"
+}
