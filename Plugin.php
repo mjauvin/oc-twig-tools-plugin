@@ -7,6 +7,7 @@ use File;
 use Storage;
 use Yaml;
 
+use Cms\Classes\Content;
 use Cms\Classes\Theme;
 use October\Rain\Argon\Argon;
 use System\Classes\PluginBase;
@@ -34,6 +35,18 @@ class Plugin extends PluginBase
         Event::listen('cms.page.init', function ($controller, $page) {
             App::instance('cms.twig.environment', $controller->getTwig());
         });
+
+        Event::listen('cms.page.beforeRenderContent', function ($controller, $contentName) {
+            $theme = Theme::getActiveTheme();
+            $block = Content::loadCached($theme, $contentName);
+            if (!$block) {
+                $lipsum = implode("\n", (new \Badcow\LoremIpsum\Generator())->getSentences(1));
+                $block = new Content(['markup'=>$lipsum, 'fileName'=>'fallback.md']);
+                $block->attributes['parsedMarkup'] = $block->parseMarkup();
+                return $block;
+            }
+        });
+
     }
 
     public function registerMarkupTags()
