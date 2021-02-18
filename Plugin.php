@@ -37,14 +37,13 @@ class Plugin extends PluginBase
         });
 
         Event::listen('cms.page.beforeRenderContent', function ($controller, $contentName) {
-            $theme = Theme::getActiveTheme();
-            $block = Content::loadCached($theme, $contentName);
-            if (!$block) {
+            $content = Content::loadCached($controller->getTheme(), $contentName);
+            if (!$content) {
                 $lipsum = implode("\n", (new \Badcow\LoremIpsum\Generator())->getSentences(1));
-                $block = new Content(['markup'=>$lipsum, 'fileName'=>'fallback.md']);
-                $block->attributes['parsedMarkup'] = $block->parseMarkup();
-                return $block;
+                $content = new Content(['markup'=>$lipsum, 'fileName'=>'fallback.md']);
+                $content->attributes['parsedMarkup'] = $content->parseMarkup();
             }
+            return $content;
         });
 
     }
