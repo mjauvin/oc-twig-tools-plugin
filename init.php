@@ -1,13 +1,16 @@
 <?php
 
-function lipsum($n=1, $type="s")
+function lipsum($n = 1, $type = "s", $seperator = null)
 {
+    $result = '';
     $gen = new \Badcow\LoremIpsum\Generator();
     if ($type === 's') {
-        return implode('<p>', $gen->getSentences($n));
+        $result = ($seperator ?: '<p>') . implode($seperator ?: '<p>', $gen->getSentences($n));
     } else if ($type === 'w') {
-        return implode(' ', $gen->getRandomWords($n));
+        $result = implode($seperator ?: ' ', $gen->getRandomWords($n));
     } else if ($type === 'p') {
-        return implode('<p>', $gen->getParagraphs($n));
-    }   
+        $result = ($seperator ?: '<p>') . implode($seperator ?: '<p>', $gen->getParagraphs($n));
+    }
+
+    return trim($result);
 }

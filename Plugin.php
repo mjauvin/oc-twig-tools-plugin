@@ -39,9 +39,8 @@ class Plugin extends PluginBase
         Event::listen('cms.page.beforeRenderContent', function ($controller, $contentName) {
             $content = Content::loadCached($controller->getTheme(), $contentName);
             if (!$content) {
-                $lipsum = implode("\n", (new \Badcow\LoremIpsum\Generator())->getSentences(1));
+                $lipsum = lipsum(1, 's');
                 $content = new Content(['markup'=>$lipsum, 'fileName'=>'fallback.md']);
-                $content->attributes['parsedMarkup'] = $content->parseMarkup();
             }
             return $content;
         });
@@ -120,8 +119,8 @@ class Plugin extends PluginBase
                 },
             ],
             'functions' => [
-                'lipsum' => function ($n=1, $type="s") {
-                    return lipsum($n, $type);
+                'lipsum' => function ($n=1, $type="s", $seperator=null) {
+                    return lipsum($n, $type, $seperator);
                 },
                 'get_class' => function ($object) {
                     return get_class($object);
