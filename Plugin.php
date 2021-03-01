@@ -60,8 +60,11 @@ class Plugin extends PluginBase
                     }
                     return explode("\n", $text);
                 },
-                'json_decode' => function ($data=[]) {
-                    return json_decode($data);
+                'json_encode' => function ($data=[]) {
+                    return json_encode($data, true);
+                },
+                'json_decode' => function ($data=[], $associative = null) {
+                    return json_decode($data, $associative);
                 },
                 'krsort' => function ($array) {
                     $array = (array)$array;
