@@ -61,7 +61,7 @@ class Plugin extends PluginBase
                     return explode("\n", $text);
                 },
                 'json_encode' => function ($data=[]) {
-                    return json_encode($data, true);
+                    return json_encode($data);
                 },
                 'json_decode' => function ($data=[], $associative = null) {
                     return json_decode($data, $associative);
