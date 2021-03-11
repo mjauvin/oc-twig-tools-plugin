@@ -54,6 +54,13 @@ class Plugin extends PluginBase
                 'br2nl' => function ($content) {
                     return str_replace("<br>", "\r\n", $content);
                 },
+                'elide' => function($text, $locale) {
+                    if ($locale == 'fr') {
+                        return preg_replace('/d[ae]\s([aeéèiou])/i', "d'$1", $text);
+                    } else {
+                        return $text;
+                    }
+                },
                 'get_lines' => function ($text) {
                     if (!trim($text)) {
                         return [];
