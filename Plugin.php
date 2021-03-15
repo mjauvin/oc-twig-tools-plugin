@@ -129,7 +129,13 @@ class Plugin extends PluginBase
                 },
                 'truncate' => function ($str, $length) {
                     if (strlen($str) > $length) {
-                        return substr($str, 0, $length) . ' ...';
+                        $sentences = explode('.', $str);
+                        if (count($sentences) >= 3) {
+                            $tstr = implode(". ", array_slice($sentences, 0, 3));
+                            return $tstr . '.';
+                        } else {
+                            return substr($str, 0, $length) . ' ...';
+                        }
                     } else {
                         return $str;
                     }
