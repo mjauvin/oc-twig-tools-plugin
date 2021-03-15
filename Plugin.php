@@ -127,6 +127,13 @@ class Plugin extends PluginBase
                 'trim' => function ($str) {
                     return trim($str);
                 },
+                'truncate' => function ($str, $length) {
+                    if (strlen($str) > $length) {
+                        return substr($str, 0, $length) . ' ...';
+                    } else {
+                        return $str;
+                    }
+                },
             ],
             'functions' => [
                 'lipsum' => function ($n=1, $type="s", $seperator=null) {
