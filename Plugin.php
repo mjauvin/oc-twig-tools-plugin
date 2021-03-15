@@ -127,11 +127,11 @@ class Plugin extends PluginBase
                 'trim' => function ($str) {
                     return trim($str);
                 },
-                'truncate' => function ($str, $length) {
+                'truncate' => function ($str, $length, $phrases=2) {
                     if (strlen($str) > $length) {
                         $sentences = explode('.', $str);
-                        if (count($sentences) >= 3) {
-                            $tstr = implode(". ", array_slice($sentences, 0, 3));
+                        if (count($sentences) >= $phrases) {
+                            $tstr = implode(". ", array_slice($sentences, 0, $phrases));
                             return $tstr . '.';
                         } else {
                             return substr($str, 0, $length) . ' ...';
