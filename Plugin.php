@@ -11,6 +11,7 @@ use Cms\Classes\Content;
 use Cms\Classes\Theme;
 use October\Rain\Argon\Argon;
 use System\Classes\PluginBase;
+use System\Classes\PluginManager;
 
 /**
  * TwigTools Plugin Information File
@@ -35,16 +36,6 @@ class Plugin extends PluginBase
         Event::listen('cms.page.init', function ($controller, $page) {
             App::instance('cms.twig.environment', $controller->getTwig());
         });
-
-        Event::listen('cms.page.beforeRenderContent', function ($controller, $contentName) {
-            $content = Content::loadCached($controller->getTheme(), $contentName);
-            if (!$content) {
-                $lipsum = lipsum(1, 's');
-                $content = new Content(['markup'=>$lipsum, 'fileName'=>'fallback.md']);
-            }
-            return $content;
-        });
-
     }
 
     public function registerMarkupTags()
